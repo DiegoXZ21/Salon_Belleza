@@ -1,9 +1,24 @@
-# Ignorar la carpeta .vs que genera Visual Studio
+# User-specific files
 .vs/
+.vscode/
+.idea/
 
-# Ignorar archivos temporales de Windows
-Thumbs.db
-Desktop.ini
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
 
-# Ignorar archivos de logs
+# Windows Installer files
 *.log
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Windows Installer files
+[Dd]ebug/
+[Dd]ebugPublic/
+[Dd]ist/
+[Dd]ebug/
+[Dd]ist/
