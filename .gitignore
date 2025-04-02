@@ -1,0 +1,9 @@
+# Ignorar la carpeta .vs que genera Visual Studio
+.vs/
+
+# Ignorar archivos temporales de Windows
+Thumbs.db
+Desktop.ini
+
+# Ignorar archivos de logs
+*.log
