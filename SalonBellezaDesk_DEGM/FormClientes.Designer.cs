@@ -28,6 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -47,6 +51,7 @@
             this.NombreCompleto = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Telefono = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Email = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Acción = new System.Windows.Forms.DataGridViewButtonColumn();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvClientes)).BeginInit();
@@ -186,22 +191,30 @@
             // 
             // dgvClientes
             // 
+            this.dgvClientes.AllowUserToAddRows = false;
+            this.dgvClientes.AllowUserToDeleteRows = false;
+            this.dgvClientes.AllowUserToOrderColumns = true;
             this.dgvClientes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvClientes.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Id_Cliente,
             this.NombreCompleto,
             this.Telefono,
-            this.Email});
+            this.Email,
+            this.Acción});
             this.dgvClientes.Location = new System.Drawing.Point(403, 13);
             this.dgvClientes.Name = "dgvClientes";
-            this.dgvClientes.Size = new System.Drawing.Size(597, 288);
+            this.dgvClientes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvClientes.Size = new System.Drawing.Size(695, 288);
             this.dgvClientes.TabIndex = 10;
+            this.dgvClientes.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvClientes_CellClick);
             this.dgvClientes.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             this.dgvClientes.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvClientes_CellContentDoubleClick);
             // 
             // Id_Cliente
             // 
             this.Id_Cliente.DataPropertyName = "Id_Cliente";
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Id_Cliente.DefaultCellStyle = dataGridViewCellStyle5;
             this.Id_Cliente.HeaderText = "ID";
             this.Id_Cliente.Name = "Id_Cliente";
             this.Id_Cliente.ReadOnly = true;
@@ -210,6 +223,8 @@
             // NombreCompleto
             // 
             this.NombreCompleto.DataPropertyName = "NombreCompleto";
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.NombreCompleto.DefaultCellStyle = dataGridViewCellStyle6;
             this.NombreCompleto.HeaderText = "Nombre Completo";
             this.NombreCompleto.Name = "NombreCompleto";
             this.NombreCompleto.ReadOnly = true;
@@ -218,6 +233,8 @@
             // Telefono
             // 
             this.Telefono.DataPropertyName = "Telefono";
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Telefono.DefaultCellStyle = dataGridViewCellStyle7;
             this.Telefono.HeaderText = "Telefono";
             this.Telefono.Name = "Telefono";
             this.Telefono.ReadOnly = true;
@@ -226,16 +243,25 @@
             // Email
             // 
             this.Email.DataPropertyName = "Email";
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Email.DefaultCellStyle = dataGridViewCellStyle8;
             this.Email.HeaderText = "Email";
             this.Email.Name = "Email";
             this.Email.ReadOnly = true;
             this.Email.Width = 150;
             // 
+            // Acción
+            // 
+            this.Acción.HeaderText = "Acción";
+            this.Acción.Name = "Acción";
+            this.Acción.Text = "ACTUALIZAR";
+            this.Acción.UseColumnTextForButtonValue = true;
+            // 
             // FormClientes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1012, 322);
+            this.ClientSize = new System.Drawing.Size(1181, 322);
             this.Controls.Add(this.dgvClientes);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -272,6 +298,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn NombreCompleto;
         private System.Windows.Forms.DataGridViewTextBoxColumn Telefono;
         private System.Windows.Forms.DataGridViewTextBoxColumn Email;
+        private System.Windows.Forms.DataGridViewButtonColumn Acción;
     }
 }
 

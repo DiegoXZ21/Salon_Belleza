@@ -60,6 +60,7 @@ namespace SalonBellezaDesk_DEGM
                 try
                 {
                     //Se hacen las inserciones a la base de datos luego de haber superado las validaciones previas
+
                     using (SQLiteConnection con = DB_Connection.Database.GetConnection())
                     {
                         con.Open();
@@ -128,7 +129,12 @@ namespace SalonBellezaDesk_DEGM
 
         private void dgvClientes_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0)
+            
+        }
+
+        private void dgvClientes_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == dgvClientes.Columns["Acción"].Index && e.RowIndex >= 0)
             {
                 SQLiteConnection con = DB_Connection.Database.GetConnection();
                 DataGridViewRow row = dgvClientes.Rows[e.RowIndex];
@@ -143,7 +149,7 @@ namespace SalonBellezaDesk_DEGM
                         MostrarCLientes();
                     }
                 }
-                
+
             }
         }
     }
