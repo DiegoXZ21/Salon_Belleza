@@ -21,7 +21,6 @@ namespace SalonBellezaDesk_DEGM
             InitializeComponent();
             this.Id_Cliente = id;
             this.con = conexion;
-            //MessageBox.Show("ID: "+this.Id_Cliente);
             CargarDatosCLiente();
         }
 
@@ -29,27 +28,29 @@ namespace SalonBellezaDesk_DEGM
         {
             try
             {
-                con.Open();
-                String query = "SELECT Nombre, Apellido, Telefono, Email FROM Clientes WHERE Id_Cliente = @ID";
-                SQLiteCommand command = new SQLiteCommand(query, con);
-                command.Parameters.AddWithValue("@ID", Id_Cliente);
-                SQLiteDataReader reader = command.ExecuteReader();
+                using (SQLiteConnection con = DB_Connection.Database.GetConnection())
+                {
+                    con.Open();
+                    string query = "SELECT Nombre, Apellido, Telefono, Email FROM Clientes WHERE Id_Cliente = @ID";
 
-                if (reader.Read()) 
-                { 
-                    //Asignamos el resultado de la consulta a las respectivas variables
-                    String Nombre = reader["Nombre"].ToString();
-                    String Apellido = reader["Apellido"].ToString();
-                    String Telefono = reader["Telefono"].ToString();
-                    String Email = reader["Email"].ToString();
+                    using (SQLiteCommand command = new SQLiteCommand(query, con))
+                    {
+                        command.Parameters.AddWithValue("@ID", Id_Cliente);
 
-                    //Asignamos a los txt los valores de las variables
-                    textNombre.Text = Nombre;
-                    textApellido.Text = Apellido;
-                    textTelefono.Text = Telefono;
-                    textEmail.Text = Email;
-
+                        using (SQLiteDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                // Asignamos el resultado de la consulta a los campos de texto
+                                textNombre.Text = reader["Nombre"].ToString();
+                                textApellido.Text = reader["Apellido"].ToString();
+                                textTelefono.Text = reader["Telefono"].ToString();
+                                textEmail.Text = reader["Email"].ToString();
+                            }
+                        }
+                    }
                 }
+                
             }
             catch (Exception)
             {
@@ -62,27 +63,46 @@ namespace SalonBellezaDesk_DEGM
         {
             try
             {
-                if (textNombre.Text.ToString() == "" || textApellido.Text.ToString() == "" || textTelefono.Text.ToString() == "") 
+                if (!string.IsNullOrWhiteSpace(textNombre.Text) &&
+                    !string.IsNullOrWhiteSpace(textApellido.Text) &&
+                    !string.IsNullOrWhiteSpace(textTelefono.Text))
                 {
-                    con.Open();
-                    String query = "UPDATE Clientes set Nombre=@Nombre, Apelldio=@Apellido, Telefono=@Telefono, Email=@Email WHERE Id_Cliente=@Id_Cliente";
-                    SQLiteCommand cmd = new SQLiteCommand(query, con);
-                    cmd.Parameters.AddWithValue("@Nombre", textNombre.Text.ToString());
-                    cmd.Parameters.AddWithValue("@Apellido", textApellido.Text.ToString());
-                    cmd.Parameters.AddWithValue("@Telefono", textTelefono.Text.ToString());
-                    cmd.Parameters.AddWithValue("@Email", textEmail.Text.ToString());
-                    cmd.Parameters.AddWithValue("@Id_Cliente", Id_Cliente);
-                    cmd.ExecuteNonQuery();
-                    con.Close();
-                    MessageBox.Show("Cliente actualizado correctamente", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.DialogResult = DialogResult.OK;
+                    using (con)
+                    {
+                        con.Open();
+                        string query = "UPDATE Clientes SET Nombre=@Nombre, Apellido=@Apellido, Telefono=@Telefono, Email=@Email WHERE Id_Cliente=@Id_Cliente";
+
+                        using (SQLiteCommand cmd = new SQLiteCommand(query, con))
+                        {
+                            cmd.Parameters.AddWithValue("@Nombre", textNombre.Text);
+                            cmd.Parameters.AddWithValue("@Apellido", textApellido.Text);
+                            cmd.Parameters.AddWithValue("@Telefono", textTelefono.Text);
+                            cmd.Parameters.AddWithValue("@Email", textEmail.Text);
+                            cmd.Parameters.AddWithValue("@Id_Cliente", Id_Cliente);
+
+                            int rowsAffected = cmd.ExecuteNonQuery();
+
+                            if (rowsAffected > 0)
+                            {
+                                MessageBox.Show("Cliente actualizado correctamente", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                this.DialogResult = DialogResult.OK;
+                                this.Close();
+                            }
+                            else
+                            {
+                                MessageBox.Show("No se encontró el cliente a actualizar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            }
+                        }
+                    }
                 }
-                
+                else
+                {
+                    MessageBox.Show("Todos los campos deben estar llenos.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                MessageBox.Show("Que pasooooo");
-                throw;
+                MessageBox.Show($"Error al actualizar: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
